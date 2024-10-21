@@ -16,8 +16,4 @@ public class LLMHw1Config extends DiarcConfiguration {
   }
 
   // start the configuration
-  public static void main(String[] args) {
-    LLMHw1Config config = new LLMHw1Config();
-    config.runConfiguration();
-  }
 }

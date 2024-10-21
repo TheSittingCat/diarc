@@ -48,7 +48,8 @@ public class LLMHw2Config extends DiarcConfiguration {
         createInstance(ReferenceResolutionComponent.class);
         createInstance(DialogueComponent.class);
         createInstance(SimpleNLGComponent.class);
-        createInstance(Hw2LLMParserComponent.class, "-service parseIt"); // This is the new component that we have written
+        String args = "-service parseIt";
+        createInstance(Hw2LLMParserComponent.class, args); // This is the new component that we have written
 
         if(mock) {
             createInstance(SupermarketComponent.class, "-groups agent:roboshopper -agentName roboshopper");
@@ -59,7 +60,7 @@ public class LLMHw2Config extends DiarcConfiguration {
         }
 
         String goal_args = "-beliefinitfile demos.pl domains/supermarket.pl agents/hw2agents.pl "+
-        "-asl core.asl vision.asl nao/naodemo.asl dialogue/nlg.asl dialogue/handleSemantics.asl dialogue/nlu.asl domains domain domains/supermarketRefactor.asl " +
+        "-asl core.asl vision.asl nao/naodemo.asl dialogue/nlg.asl dialogue/handleSemantics.asl dialogue/nlu.asl domains/supermarketRefactor.asl domains/llm/llmExample.asl " +
         "-goal listen(self)";
 
         createInstance(GoalManagerComponent.class, goal_args);

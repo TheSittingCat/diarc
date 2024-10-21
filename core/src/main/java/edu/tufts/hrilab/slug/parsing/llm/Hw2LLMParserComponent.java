@@ -1,12 +1,23 @@
 package edu.tufts.hrilab.slug.parsing.llm;
 
+import ai.thinkingrobots.trade.TRADE;
 import ai.thinkingrobots.trade.TRADEService;
+import ai.thinkingrobots.trade.TRADEServiceConstraints;
 import edu.tufts.hrilab.fol.Symbol;
+import edu.tufts.hrilab.llm.LLMComponent;
+
 
 public class Hw2LLMParserComponent extends LLMParserComponent {
     public Hw2LLMParserComponent() {
         super();
     }
+
+    //    @TRADEService
+     //   public int chatCompletion(String prompt) {
+     //       String args = "-endpoint http://vm-llama.eecs.tufts.edu:8080";
+     //       createInstance(edu.tufts.hrilab.llm.LLMComponent.class, args);
+     //       return 1;
+     //   }
 
     @TRADEService
     public AlternateResponse parseIt(String Input) { // This is a new service that will be called by the LLMComponent
@@ -14,6 +25,20 @@ public class Hw2LLMParserComponent extends LLMParserComponent {
         response.referents = new Referent[0];
         response.descriptors = new Descriptor[0];
         response.intention = new Intention();
+        String response_llm;
+        String prompt = "Given a command to the robot shopper that is shopping in a supermarket, respond only with the appropriate command to the robot shopper. For example, if the command is 'go east', the response will be 'intent=instruct,proposition=goEast,type=action,arguments=VAR0'";
+        
+        try {
+            response_llm = TRADE.getAvailableService(new TRADEServiceConstraints().name("chatCompletion").argTypes(String.class)).call(String.class,Input);
+        }
+
+        catch (Exception e) {
+            log.info(e.getMessage());
+            response_llm = Input;
+        }
+        
+        log.info("The answer is: " + response_llm);
+
         // In the next version, LLM will be used to parse the input and generate the response rather than the following if-else statements. This is just a placeholder
         if (Input.equals("go east")) {
             String LLMOut = "intent=instruct,proposition=goEast,type=action,arguments=VAR0";
