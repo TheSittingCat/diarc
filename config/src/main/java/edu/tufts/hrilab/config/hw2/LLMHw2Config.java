@@ -49,7 +49,6 @@ public class LLMHw2Config extends DiarcConfiguration {
         createInstance(DialogueComponent.class);
         createInstance(SimpleNLGComponent.class);
         String args = "-service parseIt";
-        createInstance(Hw2LLMParserComponent.class, args); // This is the new component that we have written
 
         if(mock) {
             createInstance(SupermarketComponent.class, "-groups agent:roboshopper -agentName roboshopper");
@@ -58,6 +57,10 @@ public class LLMHw2Config extends DiarcConfiguration {
             createInstance(NaoComponent.class, "-groups agent:dempster -url 192.168.1.7 -unsafe -doNotWakeUp -voice low");
             // This is for the case where we have a real Nao, should be irrelevant for the assignment
         }
+
+        createInstance(LLMComponent.class, "-endpoint http://vm-llama.eecs.tufts.edu:8080");
+
+        createInstance(Hw2LLMParserComponent.class, args); // This is the new component that we have written
 
         String goal_args = "-beliefinitfile demos.pl domains/supermarket.pl agents/hw2agents.pl "+
         "-asl core.asl vision.asl nao/naodemo.asl dialogue/nlg.asl dialogue/handleSemantics.asl dialogue/nlu.asl domains/supermarketRefactor.asl domains/llm/llmExample.asl " +
